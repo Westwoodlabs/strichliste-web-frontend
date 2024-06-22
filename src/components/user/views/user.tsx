@@ -11,6 +11,8 @@ import { useDispatch } from 'redux-react-hook';
 import { ScrollToTop } from '../../common/scroll-to-top';
 import { UserList } from '../user-list';
 
+import { Scanner } from '../../../common/scanner';
+
 interface OwnProps {
   isActive: boolean;
   showCreateUserForm?: boolean;
@@ -48,6 +50,10 @@ export const User = (props: UserProps) => {
     startLoadingUsers(dispatch);
   }, [props.isActive, dispatch]);
 
+  const handleUserScan = async (barcode: string) => {
+    console.log("scanned user code: ", barcode);
+  }
+
   return (
     <>
       <ScrollToTop />
@@ -73,6 +79,7 @@ export const User = (props: UserProps) => {
           ]}
         />
         <UserList userIds={userIds} />
+        <Scanner charset={/[a-z0-9_\-]/i} validator={/^U.{4,}/} onChange={handleUserScan} />
       </GridWrapper>
     </>
   );
