@@ -9,6 +9,8 @@ interface State {
 interface Props {
   render?(value: string): JSX.Element;
   onChange?(value: string): void;
+  charset: RegExp;
+  validator: RegExp;
 }
 
 export class Scanner extends React.Component<Props, State> {
@@ -36,7 +38,7 @@ export class Scanner extends React.Component<Props, State> {
 
     clearTimeout(this.state.timeout);
 
-    if (key === 'Enter' && this.state.maybeBarcode.length > 6) {
+    if (key === 'Enter' && this.props.validator.test(this.state.maybeBarcode)) {
       this.setState(state => ({
         barcode: state.maybeBarcode,
         maybeBarcode: '',
@@ -44,7 +46,7 @@ export class Scanner extends React.Component<Props, State> {
       if (this.props.onChange) {
         this.props.onChange(this.state.barcode);
       }
-    } else if (/[a-zA-Z0-9]/i.test(key)) {
+    } else if (this.props.charset.test(key)) {
       this.setState(state => ({
         barcode: '',
         maybeBarcode: state.maybeBarcode + key,

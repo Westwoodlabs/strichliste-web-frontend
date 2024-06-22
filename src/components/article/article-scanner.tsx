@@ -48,7 +48,7 @@ export const ArticleScanner = (props: Props) => {
           <ToastContent article={article} message={message} />
         </Toast>
       )}
-      <Scanner onChange={handleChange} />
+      <Scanner charset={/[a-zA-Z0-9]/i} validator={/.{6,}/} onChange={handleChange} />
     </>
   );
 };
