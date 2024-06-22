@@ -51,13 +51,13 @@ export class Scanner extends React.Component<Props, State> {
         barcode: '',
         maybeBarcode: state.maybeBarcode + key,
       }));
-
-      const id = setTimeout(() => {
-        this.setState({ maybeBarcode: '' });
-      }, 200);
-
-      this.setState({ timeout: id });
     }
+
+    const id = setTimeout(() => {
+      this.setState({ maybeBarcode: '' });
+    }, 200);
+
+    this.setState({ timeout: id });
   };
 
   public render(): JSX.Element | null {
