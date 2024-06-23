@@ -24,6 +24,7 @@ yarn install
 Start the development server by
 
 ```
+export NODE_OPTIONS=--openssl-legacy-provider
 yarn start
 ```
 
