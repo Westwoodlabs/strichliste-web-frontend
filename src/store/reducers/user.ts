@@ -15,6 +15,7 @@ export interface User {
   isActive: boolean;
   isDisabled?: boolean;
   email?: string | null;
+  token?: string;
   balance: number;
   created: string;
   updated?: string;
@@ -83,9 +84,8 @@ export async function startLoadingUsers(
   }
   const promise = get(
     `user${Object.keys(params).reduce((paramString, param, index) => {
-      const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
-        params[param]
-      }`;
+      const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${params[param]
+        }`;
       return next;
     }, '')}`
   );
@@ -110,6 +110,7 @@ export async function startCreatingUser(
     defaultError: 'USERS_CREATION_FAILED',
     errors: {
       UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
+      TokenAlreadyInUseException: 'USER_EDIT_TOKEN_IN_USE',
     },
   });
 
@@ -123,6 +124,7 @@ export async function startCreatingUser(
 export interface UserUpdateParams {
   name: string;
   email?: string;
+  token?: string;
   isDisabled: boolean;
 }
 export async function startUpdateUser(
@@ -135,6 +137,7 @@ export async function startUpdateUser(
     promise,
     defaultError: 'USER_EDIT_USER_FAILED',
     errors: {
+      TokenAlreadyInUseException: 'USER_EDIT_TOKEN_IN_USE',
       UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
     },
   });

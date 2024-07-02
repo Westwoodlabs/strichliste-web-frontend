@@ -19,6 +19,7 @@ export const UserEditForm = (props: Props) => {
   const [name, setName] = React.useState(''),
     [email, setEmail] = React.useState(''),
     [isDisabled, setDisabled] = React.useState(false),
+    [token, setToken] = React.useState(''),
     user = useUser(props.userId),
     dispatch = useDispatch(),
     submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -27,6 +28,7 @@ export const UserEditForm = (props: Props) => {
       const user = await startUpdateUser(dispatch, props.userId, {
         name,
         email,
+        token,
         isDisabled,
       });
 
@@ -44,6 +46,7 @@ export const UserEditForm = (props: Props) => {
       setName(user.name);
       setEmail(user.email || '');
       setDisabled(user.isDisabled || false);
+      setToken(user.token || '');
     }
   }, [props.userId]);
 
@@ -80,6 +83,19 @@ export const UserEditForm = (props: Props) => {
           />
         </Block>
         <Block margin="1rem 0">
+        <FormattedMessage
+          id="USER_EDIT_TOKEN_LABEL"
+          children={(text) => (
+            <Input
+              placeholder={text as string}
+              value={token || ''}
+              onChange={(e) => setToken(e.target.value)}
+              type="text"
+            />
+          )}
+        />
+      </div>
+      <div style={formStyle}>
           <Flex alignContent="center" justifyContent="space-between">
             <label>
               <input
