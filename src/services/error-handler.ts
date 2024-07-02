@@ -7,8 +7,8 @@ function handleApiError(
   config: ErrorConfig<any>,
   error: { class: string }
 ): void {
-  const [key] = Object.keys(config.errors || {}).filter(key =>
-    error.class.indexOf(key)
+  const [key] = Object.keys(config.errors || {}).filter(
+    (key) => error.class.indexOf(key) > 0
   );
 
   if (key && config.errors && config.errors[key]) {

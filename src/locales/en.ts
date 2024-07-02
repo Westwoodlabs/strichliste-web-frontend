@@ -22,6 +22,7 @@ export const en = {
     'Oops could not load users :-( Maybe check your internet connection and try it again',
   USERS_CREATION_FAILED: 'Oops could not create this user',
   USERS_CREATION_FAILED_USER_EXIST: 'This user already exists',
+  USER_EDIT_TOKEN_IN_USE: 'This token is already in use by another user',
   USER_EDIT_USER_FAILED:
     'Could not save the user :-(. Check your input or your internet connection',
   USER_SEARCH_LINK: 'Find users',
@@ -63,6 +64,7 @@ export const en = {
   USER_EDIT_TRIGGER: 'save changes',
   USER_EDIT_NAME_LABEL: 'name',
   USER_EDIT_MAIL_LABEL: 'e-mail',
+  USER_EDIT_TOKEN_LABEL: 'token',
   USER_EDIT_ACTIVE_LABEL: 'User is inactive',
   USER_EDIT_ACTIVE_WARNING: 'you can not enable a disabled user. So take care',
   PAYMENT_DEPOSIT_LABEL: 'Charge your wallet',
