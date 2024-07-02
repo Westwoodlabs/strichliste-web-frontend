@@ -10,8 +10,11 @@ import { CreateUserInlineFormView } from '../create-user-inline-form';
 import { useDispatch } from 'redux-react-hook';
 import { ScrollToTop } from '../../common/scroll-to-top';
 import { UserList } from '../user-list';
+import { getUserDetailLink } from '../user-router';
+import { get } from '../../../services/api';
+import { errorHandler } from '../../../services/error-handler';
 
-import { Scanner } from '../../../common/scanner';
+import { Scanner } from '../../common/scanner';
 
 interface OwnProps {
   isActive: boolean;
@@ -51,8 +54,16 @@ export const User = (props: UserProps) => {
   }, [props.isActive, dispatch]);
 
   const handleUserScan = async (barcode: string) => {
-    console.log("scanned user code: ", barcode);
-  }
+    console.log('scanned user code: ', barcode);
+
+    const promise = get(`user/token?token=${barcode}`);
+    const data = await errorHandler<any>(dispatch, {
+      promise,
+    });
+    if (data && data.user) {
+      props.history.push(getUserDetailLink(data.user.id));
+    }
+  };
 
   return (
     <>
