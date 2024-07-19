@@ -22,28 +22,35 @@ export class Scanner extends React.Component<Props, State> {
   public inputRef = React.createRef<HTMLInputElement>();
 
   public componentDidMount(): void {
-    document.addEventListener('keyup', this.detection);
+    document.addEventListener('keypress', this.detection);
+
   }
 
   public componentWillUnmount(): void {
-    document.removeEventListener('keyup', this.detection);
+    document.removeEventListener('keypress', this.detection);
   }
 
   public detection = (event: KeyboardEvent): void => {
     const key = event.key;
-
-    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode)) {
-      this.inputRef.current.focus();
-    }
+    let preventOnChange = false;
 
     clearTimeout(this.state.timeout);
+
+    // console.log(document.activeElement, this.inputRef.current, this.state.maybeBarcode);
+
+    if (this.inputRef.current !== document.activeElement && document.activeElement && document.activeElement.tagName === 'INPUT') {
+      if (key === 'Enter' && this.state.maybeBarcode !== '') {
+        event.preventDefault();
+        preventOnChange = true;
+      }
+    }
 
     if (key === 'Enter' && this.props.validator.test(this.state.maybeBarcode)) {
       this.setState(state => ({
         barcode: state.maybeBarcode,
         maybeBarcode: '',
       }));
-      if (this.props.onChange) {
+      if (this.props.onChange && preventOnChange === false) {
         this.props.onChange(this.state.barcode);
       }
     } else if (key.length == 1 && this.props.charset.test(key)) {

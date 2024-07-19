@@ -48,6 +48,7 @@ const CreateUserPosition = styled('div')({
 export const User = (props: UserProps) => {
   const userIds = useFilteredUsers(props.isActive);
   const dispatch = useDispatch();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     startLoadingUsers(dispatch);
@@ -90,6 +91,7 @@ export const User = (props: UserProps) => {
           ]}
         />
         <UserList userIds={userIds} />
+        <input ref={inputRef} type="text" hidden tabIndex={-1} />
         <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/U.{4,}/i} onChange={handleUserScan} />
       </GridWrapper>
     </>

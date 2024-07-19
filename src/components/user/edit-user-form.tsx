@@ -83,19 +83,19 @@ export const UserEditForm = (props: Props) => {
           />
         </Block>
         <Block margin="1rem 0">
-        <FormattedMessage
-          id="USER_EDIT_TOKEN_LABEL"
-          children={(text) => (
-            <Input
-              placeholder={text as string}
-              value={token || ''}
-              onChange={(e) => setToken(e.target.value)}
-              type="text"
-            />
-          )}
-        />
-      </Block>
-      <Block>
+          <FormattedMessage
+            id="USER_EDIT_TOKEN_LABEL"
+            children={(text) => (
+              <Input
+                placeholder={text as string}
+                value={token || ''}
+                onChange={(e) => setToken(e.target.value)}
+                type="text"
+              />
+            )}
+          />
+        </Block>
+        <Block>
           <Flex alignContent="center" justifyContent="space-between">
             <label>
               <input
