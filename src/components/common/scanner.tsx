@@ -32,7 +32,7 @@ export class Scanner extends React.Component<Props, State> {
   public detection = (event: KeyboardEvent): void => {
     const key = event.key;
 
-    if (this.inputRef.current && this.state.maybeBarcode.length > 5) {
+    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode)) {
       this.inputRef.current.focus();
     }
 
@@ -66,7 +66,7 @@ export class Scanner extends React.Component<Props, State> {
         <input
           style={{ opacity: 0 }}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           ref={this.inputRef}
           type="text"
           hidden
@@ -79,7 +79,7 @@ export class Scanner extends React.Component<Props, State> {
         <input
           style={{ opacity: 0 }}
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
           ref={this.inputRef}
           type="text"
           hidden

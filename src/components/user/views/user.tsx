@@ -90,7 +90,7 @@ export const User = (props: UserProps) => {
           ]}
         />
         <UserList userIds={userIds} />
-        <Scanner charset={/[a-z0-9_\-]/i} validator={/^U.{4,}/} onChange={handleUserScan} />
+        <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/U.{4,}/i} onChange={handleUserScan} />
       </GridWrapper>
     </>
   );
