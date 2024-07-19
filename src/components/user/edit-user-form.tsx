@@ -94,8 +94,8 @@ export const UserEditForm = (props: Props) => {
             />
           )}
         />
-      </div>
-      <div style={formStyle}>
+      </Block>
+      <Block>
           <Flex alignContent="center" justifyContent="space-between">
             <label>
               <input

@@ -197,6 +197,7 @@ export const ArticleForm: React.FC<Props> = props => {
                       barcode,
                     })
                   }
+                  charset={/[a-zA-Z0-9]/i} validator={/.{6,}/}
                 />
                 <label htmlFor="article_add_barcode_label">
                   <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
