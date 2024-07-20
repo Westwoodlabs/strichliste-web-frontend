@@ -10,6 +10,7 @@ import {
   startLoadingUserDetails,
 } from '../../store/reducers';
 import { ArticleScanner } from '../article/article-scanner';
+import { UserScanner } from './user-scanner';
 import { Payment, TransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
@@ -19,6 +20,7 @@ import { ScrollToTop } from '../common/scroll-to-top';
 
 // @ts-ignore
 import styles from './user-details.module.css';
+
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
@@ -46,15 +48,15 @@ export const UserDetails = (props: UserDetailsProps) => {
 
   const transactions = user.transactions
     ? Object.keys(user.transactions)
-        .map(a => Number(a))
-        .sort((a, b) => b - a)
-        .slice(0, 5)
+      .map(a => Number(a))
+      .sort((a, b) => b - a)
+      .slice(0, 5)
     : [];
   return (
     <div>
       <ScrollToTop />
-      <input ref={inputRef} type="text" hidden tabIndex={-1} />
       <ArticleScanner userId={user.id} />
+      <UserScanner />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
       <div className={styles.userDetailsGrid}>
