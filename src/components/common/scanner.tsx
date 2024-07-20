@@ -18,6 +18,7 @@ export class Scanner extends React.Component<Props, State> {
     barcode: '',
     maybeBarcode: '',
     timeout: undefined,
+    i: 0,
   };
   public inputRef = React.createRef<HTMLInputElement>();
 
@@ -31,12 +32,15 @@ export class Scanner extends React.Component<Props, State> {
   }
 
   public detection = (event: KeyboardEvent): void => {
+    console.log('i', this.state.i++);
     const key = event.key;
     let preventOnChange = false;
 
     clearTimeout(this.state.timeout);
 
     // console.log(document.activeElement, this.inputRef.current, this.state.maybeBarcode);
+
+    console.log('key', key);
 
     if (this.inputRef.current !== document.activeElement && document.activeElement && document.activeElement.tagName === 'INPUT') {
       if (key === 'Enter' && this.state.maybeBarcode !== '') {
@@ -58,11 +62,17 @@ export class Scanner extends React.Component<Props, State> {
         barcode: '',
         maybeBarcode: state.maybeBarcode + key,
       }));
+      console.log('maybeBarcode', this.state.maybeBarcode);
+    }
+
+    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode)) {
+      console.log("change focus...")
+      this.inputRef.current.focus();
     }
 
     const id = setTimeout(() => {
       this.setState({ maybeBarcode: '' });
-    }, 200);
+    }, 300);
 
     this.setState({ timeout: id });
   };
