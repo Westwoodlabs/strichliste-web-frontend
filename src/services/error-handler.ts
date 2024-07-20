@@ -46,7 +46,7 @@ export async function errorHandler<Result extends MaybeResponse>(
     dispatch(setLoader({ [loader]: false }));
     if (data.error) {
       handleApiError(dispatch, config, data.error);
-      return undefined;
+      return data;
     } else {
       return data;
     }

@@ -13,6 +13,7 @@ import { UserList } from '../user-list';
 import { getUserDetailLink } from '../user-router';
 import { get } from '../../../services/api';
 import { errorHandler } from '../../../services/error-handler';
+import { Toast } from '../../common/toast';
 
 import { Scanner } from '../../common/scanner';
 
@@ -49,6 +50,7 @@ export const User = (props: UserProps) => {
   const userIds = useFilteredUsers(props.isActive);
   const dispatch = useDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [message, setMessage] = React.useState('');
 
   useEffect(() => {
     startLoadingUsers(dispatch);
@@ -57,43 +59,67 @@ export const User = (props: UserProps) => {
   const handleUserScan = async (barcode: string) => {
     console.log('scanned user code: ', barcode);
 
+
     const promise = get(`user/token?token=${barcode}`);
     const data = await errorHandler<any>(dispatch, {
       promise,
     });
-    if (data && data.user) {
+    if (data && data.error && data.error.message) {
+      setMessage(data.error.message);
+    } else if (data && data.user) {
       props.history.push(getUserDetailLink(data.user.id));
     }
+
+  };
+
+  const resetState = () => {
+    setMessage('');
   };
 
   return (
     <>
-      <ScrollToTop />
-      <GridWrapper>
-        <CreateUserPosition>
-          <CreateUserInlineFormView
-            isActive={props.showCreateUserForm || false}
+      <div>
+        <ScrollToTop />
+        {message && (
+          <Toast onFadeOut={resetState} fadeOutSeconds={6}>
+            <ToastContent message={message} />
+          </Toast>
+        )}
+        <GridWrapper>
+          <CreateUserPosition>
+            <CreateUserInlineFormView
+              isActive={props.showCreateUserForm || false}
+            />
+          </CreateUserPosition>
+          <NavTabMenus
+            margin="2rem 1rem"
+            breakpoint={320}
+            label={<FormattedMessage id="USER_ACTIVE_LINK" />}
+            tabs={[
+              {
+                to: '/user/active',
+                message: <FormattedMessage id="USER_ACTIVE_LINK" />,
+              },
+              {
+                to: '/user/inactive',
+                message: <FormattedMessage id="USER_INACTIVE_LINK" />,
+              },
+            ]}
           />
-        </CreateUserPosition>
-        <NavTabMenus
-          margin="2rem 1rem"
-          breakpoint={320}
-          label={<FormattedMessage id="USER_ACTIVE_LINK" />}
-          tabs={[
-            {
-              to: '/user/active',
-              message: <FormattedMessage id="USER_ACTIVE_LINK" />,
-            },
-            {
-              to: '/user/inactive',
-              message: <FormattedMessage id="USER_INACTIVE_LINK" />,
-            },
-          ]}
-        />
-        <UserList userIds={userIds} />
-        <input ref={inputRef} type="text" hidden tabIndex={-1} />
-        <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/U.{4,}/i} onChange={handleUserScan} />
-      </GridWrapper>
+          <UserList userIds={userIds} />
+          <input ref={inputRef} type="text" hidden tabIndex={-1} />
+          <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/U.{4,}/i} onChange={handleUserScan} />
+        </GridWrapper>
+      </div>
     </>
   );
 };
+
+interface ToastProps {
+  message: string;
+}
+
+function ToastContent({ message }: ToastProps): JSX.Element {
+  return <>{message}</>;
+}
+
