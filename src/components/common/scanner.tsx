@@ -78,7 +78,7 @@ export class Scanner extends React.Component<Props, State> {
     if (!this.props.render) {
       return (
         <div
-          style={{ position: "absolute" }}><input
+          style={{ position: "absolute", float: "left" }}><input
             style={{ opacity: 0 }}
             value=""
             onChange={() => { }}
@@ -92,7 +92,7 @@ export class Scanner extends React.Component<Props, State> {
     return (
       <>
         <div
-          style={{ position: "absolute" }}><input
+          style={{ position: "absolute", float: "left" }}><input
             style={{ opacity: 0 }}
             value=""
             onChange={() => { }}
