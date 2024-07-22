@@ -15,6 +15,7 @@ export const UserScanner = withRouter((props: Props) => {
 
   const handleUserScan = async (barcode: string) => {
     console.log('Scanned token (user code):', barcode);
+    setMessage(`Scanned '${barcode}'. Please wait...`)
 
     const promise = get(`user/token?token=${barcode}`);
     const data = await errorHandler<any>(dispatch, {
@@ -38,7 +39,7 @@ export const UserScanner = withRouter((props: Props) => {
           <ToastContent message={message} />
         </Toast>
       )}
-      <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/U.{4,}/i} onChange={handleUserScan} />
+      <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/.{4,}/i} onChange={handleUserScan} />
     </>
   );
 });

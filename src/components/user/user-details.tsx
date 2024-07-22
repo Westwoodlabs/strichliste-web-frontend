@@ -10,7 +10,6 @@ import {
   startLoadingUserDetails,
 } from '../../store/reducers';
 import { ArticleScanner } from '../article/article-scanner';
-import { UserScanner } from './user-scanner';
 import { Payment, TransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
@@ -56,7 +55,6 @@ export const UserDetails = (props: UserDetailsProps) => {
     <div>
       <ScrollToTop />
       <ArticleScanner userId={user.id} />
-      <UserScanner />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
       <div className={styles.userDetailsGrid}>

@@ -22,7 +22,7 @@ export const ArticleScanner = (props: Props) => {
   const dispatch = useDispatch();
 
   const handleChange = async (barcode: string) => {
-    setMessage(barcode);
+    setMessage(`Scanned '${barcode}'. Please wait...`)
     try {
       const article = await getArticleByBarcode(dispatch, barcode);
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
