@@ -19,12 +19,12 @@ interface OwnProps {
 
 type UserProps = OwnProps & RouteComponentProps;
 
-const GridWrapper = styled('div')({
+const GridWrapper = styled('div')(!isBarmodeActive() ? {
   marginLeft: '0rem',
   [breakPoints.tablet]: {
     marginLeft: '8rem',
   },
-});
+} : {});
 
 
 const CreateUserPosition = styled('div')({
