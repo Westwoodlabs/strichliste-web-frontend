@@ -6,6 +6,7 @@ import { Logo } from '../ui/icons/logo';
 import { ScrollContainer } from './scroll-container/scroll-container';
 import { useSettings } from '../../store';
 import { SearchIcon } from '../ui/icons/search';
+import { isBarmodeActive } from '../../store/reducers/setting';
 
 const navLinkStyle = { marginRight: '1rem' };
 
@@ -31,21 +32,25 @@ export function HeaderMenu(): JSX.Element {
           />
           <FormattedMessage id="TALLY_HEADER" />
         </NavLink>
-        <NavLink style={navLinkStyle} activeClassName="active" to="/articles">
-          <FormattedMessage id="ARTICLE_LINK" />
-        </NavLink>
-        {payment.splitInvoice.enabled && (
-          <NavLink
-            style={navLinkStyle}
-            activeClassName="active"
-            to="/split-invoice"
-          >
-            <FormattedMessage id="SPLIT_INVOICE_LINK" />
-          </NavLink>
+        {!isBarmodeActive() && (
+          <>
+            <NavLink style={navLinkStyle} activeClassName="active" to="/articles">
+              <FormattedMessage id="ARTICLE_LINK" />
+            </NavLink>
+            {payment.splitInvoice.enabled && (
+              <NavLink
+                style={navLinkStyle}
+                activeClassName="active"
+                to="/split-invoice"
+              >
+                <FormattedMessage id="SPLIT_INVOICE_LINK" />
+              </NavLink>
+            )}
+            <NavLink activeClassName="active" to="/metrics">
+              <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
+            </NavLink>
+          </>
         )}
-        <NavLink activeClassName="active" to="/metrics">
-          <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
-        </NavLink>
       </ScrollContainer>
       <div
         style={{

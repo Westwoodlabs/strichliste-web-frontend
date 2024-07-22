@@ -10,6 +10,7 @@ import { ScrollToTop } from '../../common/scroll-to-top';
 import { UserList } from '../user-list';
 import { UserScanner } from '../user-scanner';
 import { RouteComponentProps } from 'react-router';
+import { isBarmodeActive } from '../../../store/reducers/setting';
 
 interface OwnProps {
   isActive: boolean;
@@ -24,6 +25,7 @@ const GridWrapper = styled('div')({
     marginLeft: '8rem',
   },
 });
+
 
 const CreateUserPosition = styled('div')({
   [breakPoints.tablet]: {
@@ -54,11 +56,13 @@ export const User = (props: UserProps) => {
         <ScrollToTop />
         <UserScanner />
         <GridWrapper>
-          <CreateUserPosition>
-            <CreateUserInlineFormView
-              isActive={props.showCreateUserForm || false}
-            />
-          </CreateUserPosition>
+          {!isBarmodeActive() && (
+            <CreateUserPosition>
+              <CreateUserInlineFormView
+                isActive={props.showCreateUserForm || false}
+              />
+            </CreateUserPosition>
+          )}
           <NavTabMenus
             margin="2rem 1rem"
             breakpoint={320}

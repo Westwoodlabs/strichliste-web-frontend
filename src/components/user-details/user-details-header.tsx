@@ -61,9 +61,10 @@ const toggleTab = (
 
 export interface UserDetailsHeaderProps extends RouteComponentProps {
   user: User;
+  barmode: boolean;
 }
 
-const Component = ({ user, location }: UserDetailsHeaderProps) => {
+const Component = ({ user, location, barmode }: UserDetailsHeaderProps) => {
   const currentUrl = location.pathname;
   const userUrl = `/user/${user.id}`;
   const settings = useSettings();
@@ -80,44 +81,48 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
         </AlertText>
       </h1>
 
-      <ScrollContainer style={{ justifyContent: 'space-between' }}>
-        <LinkTab
-          activeClassName="active"
-          to={toggleTab(
-            `/user/${user.id}/send_money_to_a_friend`,
-            currentUrl,
-            userUrl
-          )}
-        >
-          <TransactionIcon />{' '}
-          <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
-        </LinkTab>
-        {settings.article.enabled && (
-          <LinkTab
-            activeClassName="active"
-            to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
-          >
-            <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
-          </LinkTab>
-        )}
-        <LinkTab
-          activeClassName="active"
-          to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
-        >
-          <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
-        </LinkTab>
-        {settings.paypal.enabled && (
-          <LinkTab
-            activeClassName="active"
-            to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
-          >
-            <Icon width="1rem" height="1rem">
-              <PayPal />
-            </Icon>{' '}
-            <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
-          </LinkTab>
-        )}
-      </ScrollContainer>
+      {!barmode && (
+        <>
+          <ScrollContainer style={{ justifyContent: 'space-between' }}>
+            <LinkTab
+              activeClassName="active"
+              to={toggleTab(
+                `/user/${user.id}/send_money_to_a_friend`,
+                currentUrl,
+                userUrl
+              )}
+            >
+              <TransactionIcon />{' '}
+              <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
+            </LinkTab>
+            {settings.article.enabled && (
+              <LinkTab
+                activeClassName="active"
+                to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+              >
+                <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
+              </LinkTab>
+            )}
+            <LinkTab
+              activeClassName="active"
+              to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
+            >
+              <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
+            </LinkTab>
+            {settings.paypal.enabled && (
+              <LinkTab
+                activeClassName="active"
+                to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
+              >
+                <Icon width="1rem" height="1rem">
+                  <PayPal />
+                </Icon>{' '}
+                <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
+              </LinkTab>
+            )}
+          </ScrollContainer>
+        </>
+      )}
       <UserDetailRouter />
     </UserHeader>
   );
