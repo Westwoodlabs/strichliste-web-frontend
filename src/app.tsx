@@ -22,6 +22,7 @@ import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';
 import { store } from './store';
 import { UserRouter } from './components/user/user-router';
+import { Barmode } from './components/settings/barmode';
 import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
@@ -49,7 +50,7 @@ const Grid = styled('div')({
 });
 
 const TouchStyles = () => {
-  const isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
   if (isTouchDevice) {
     return <Global styles={mobileStyles} />;
   }
@@ -100,6 +101,7 @@ const Layout = () => {
             </>
           )}
         />
+        <Route path="/barmode" component={Barmode} />
         <Route
           path="/search-results"
           render={props => (

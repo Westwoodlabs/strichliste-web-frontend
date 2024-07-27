@@ -206,15 +206,3 @@ export function isPaymentEnabled(state: AppState): boolean {
   const payment = getPayment(state);
   return isDepositActive(payment.deposit) || isDepositActive(payment.dispense);
 }
-
-export function isBarmodeActive(): boolean {
-  const BAR_MODE = process.env.REACT_APP_BAR_MODE || false;
-  console.log("BAR_MODE", BAR_MODE, String(BAR_MODE).toLowerCase() === 'true')
-  return Boolean(String(BAR_MODE).toLowerCase() === 'true');
-}
-
-export function BarmodeArticleFilter(): string {
-  const BAR_ARTICLE_FILTER = process.env.REACT_APP_BAR_ARTICLE_FILTER || '';
-  console.log("BAR_ARTICLE_FILTER", BAR_ARTICLE_FILTER)
-  return String(BAR_ARTICLE_FILTER);
-}

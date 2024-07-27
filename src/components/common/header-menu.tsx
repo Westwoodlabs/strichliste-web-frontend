@@ -5,13 +5,15 @@ import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';
 import { ScrollContainer } from './scroll-container/scroll-container';
 import { useSettings } from '../../store';
+import { useBarmode } from '../settings/barmode';
 import { SearchIcon } from '../ui/icons/search';
-import { isBarmodeActive } from '../../store/reducers/setting';
 
 const navLinkStyle = { marginRight: '1rem' };
 
+
 export function HeaderMenu(): JSX.Element {
-  const payment = useSettings().payment;
+  const settings = useSettings();
+  const barmode = useBarmode();
   return (
     <HeaderNavBar>
       <ScrollContainer>
@@ -32,12 +34,12 @@ export function HeaderMenu(): JSX.Element {
           />
           <FormattedMessage id="TALLY_HEADER" />
         </NavLink>
-        {!isBarmodeActive() && (
+        {!barmode.enabled && (
           <>
             <NavLink style={navLinkStyle} activeClassName="active" to="/articles">
               <FormattedMessage id="ARTICLE_LINK" />
             </NavLink>
-            {payment.splitInvoice.enabled && (
+            {settings.payment.splitInvoice.enabled && (
               <NavLink
                 style={navLinkStyle}
                 activeClassName="active"
@@ -46,8 +48,11 @@ export function HeaderMenu(): JSX.Element {
                 <FormattedMessage id="SPLIT_INVOICE_LINK" />
               </NavLink>
             )}
-            <NavLink activeClassName="active" to="/metrics">
+            <NavLink style={navLinkStyle} activeClassName="active" to="/metrics">
               <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
+            </NavLink>
+            <NavLink activeClassName="active" to="/barmode">
+              <FormattedMessage id="SETTINGS_LINK" defaultMessage="Barmode" />
             </NavLink>
           </>
         )}
