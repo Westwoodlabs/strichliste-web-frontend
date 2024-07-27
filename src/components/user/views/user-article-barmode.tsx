@@ -4,7 +4,6 @@ import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles
 import { getUserDetailLink, UserRouteProps } from '../user-router';
 import { useDispatch } from 'redux-react-hook';
 import { Dispatch } from '../../../store/store';
-import { withRouter } from 'react-router';
 
 async function onSelect(
   dispatch: Dispatch,
@@ -26,7 +25,7 @@ async function onSelect(
 
 type Props = UserRouteProps;
 
-export const UserArticleTransaction = withRouter((props: Props) => {
+export function UserArticleTransaction(props: Props): JSX.Element | null {
   const dispatch = useDispatch();
 
   return (
@@ -38,4 +37,4 @@ export const UserArticleTransaction = withRouter((props: Props) => {
       onSelect={article => onSelect(dispatch, article, props)}
     />
   );
-});
+}

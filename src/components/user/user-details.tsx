@@ -16,10 +16,12 @@ import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
 import { ScrollToTop } from '../common/scroll-to-top';
+import { UserArticleTransaction } from './views/user-article-transaction';
+import { Separator } from 'bricks-of-sand';
 
 // @ts-ignore
 import styles from './user-details.module.css';
-
+import { useBarmode } from '../settings/barmode';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
@@ -27,7 +29,8 @@ export const UserDetails = (props: UserDetailsProps) => {
   const userId = props.match.params.id;
   const user = useUser(userId);
   const inputRef = React.useRef(null);
-  const payment = useSettings().payment;
+  const settings = useSettings();
+  const barmode = useBarmode();
   const isPaymentEnabled = useIsPaymentEnabled();
 
   React.useEffect(() => {
@@ -55,31 +58,39 @@ export const UserDetails = (props: UserDetailsProps) => {
     <div>
       <ScrollToTop />
       <ArticleScanner userId={user.id} />
-      <UserDetailsHeader user={user} />
+      <UserDetailsHeader user={user} barmode={barmode.enabled} />
+      {barmode.enabled && (
+        <>
+          <Separator />
+          <UserArticleTransaction />
+        </>
+      )}
       <UserDetailsSeparator />
       <div className={styles.userDetailsGrid}>
-        {isPaymentEnabled && (
+        {(isPaymentEnabled && !barmode.enabled) && (
           <div className={styles.payment}>
             <Payment userId={user.id} />
           </div>
         )}
-        {payment.transactions.enabled && (
+        {settings.payment.transactions.enabled && (
           <>
             {transactions.length ? (
               <div className={styles.transactions}>
                 {transactions.map(id => (
                   <TransactionListItem key={id} id={id} />
                 ))}
-                <Flex justifyContent="flex-end">
-                  <Button
-                    onClick={() =>
-                      props.history.push(getUserTransactionsLink(user.id))
-                    }
-                  >
-                    <TransactionIcon />{' '}
-                    <FormattedMessage id="USER_TRANSACTIONS_LINK" />
-                  </Button>
-                </Flex>
+                {!barmode.enabled && (
+                  <Flex justifyContent="flex-end">
+                    <Button
+                      onClick={() =>
+                        props.history.push(getUserTransactionsLink(user.id))
+                      }
+                    >
+                      <TransactionIcon />{' '}
+                      <FormattedMessage id="USER_TRANSACTIONS_LINK" />
+                    </Button>
+                  </Flex>
+                )}
               </div>
             ) : (
               <Flex alignContent="center" justifyContent="center">
@@ -89,15 +100,17 @@ export const UserDetails = (props: UserDetailsProps) => {
           </>
         )}
       </div>
-      <Flex justifyContent="flex-end" margin="1rem">
-        <Button
-          onClick={() =>
-            props.history.push(`${getUserDetailLink(user.id)}/metrics`)
-          }
-        >
-          <TransactionIcon /> <FormattedMessage id="METRICS_HEADLINE" />
-        </Button>
-      </Flex>
+      {!barmode.enabled && (
+        <Flex justifyContent="flex-end" margin="1rem">
+          <Button
+            onClick={() =>
+              props.history.push(`${getUserDetailLink(user.id)}/metrics`)
+            }
+          >
+            <TransactionIcon /> <FormattedMessage id="METRICS_HEADLINE" />
+          </Button>
+        </Flex>
+      )}
     </div>
   );
 };

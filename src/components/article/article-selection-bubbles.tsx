@@ -6,6 +6,7 @@ import { usePopularArticles } from '../../store';
 import { Article, startLoadingArticles } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
+import { useBarmode } from '../settings/barmode';
 
 const InputSection = styled(Flex)({
   padding: '0 1rem',
@@ -24,9 +25,11 @@ interface Props {
 
 const ARTICLE_BUBBLE_LIMIT = 10;
 export const ArticleSelectionBubbles = (props: Props) => {
+  const barmode = useBarmode();
   const items = usePopularArticles();
   const dispatch = useDispatch();
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState(barmode.filter);
+  const style = (barmode.enabled ? { padding: '1em', fontSize: '1.5rem' } : {});
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, true);
@@ -34,10 +37,12 @@ export const ArticleSelectionBubbles = (props: Props) => {
 
   return (
     <div>
-      <InputSection>
-        <Input value={query} onChange={e => setQuery(e.target.value)} />
-        <CancelButton onClick={props.onCancel} />
-      </InputSection>
+      {!barmode.enabled && (
+        <InputSection>
+          <Input value={query} onChange={e => setQuery(e.target.value)} />
+          <CancelButton onClick={props.onCancel} />
+        </InputSection>
+      )}
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
         {items
           .filter(
@@ -60,6 +65,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
                   }}
                   padding="0.5rem"
                   margin="0.3rem"
+                  style={style}
                 >
                   {item.name} | <Currency hidePlusSign value={item.amount} />
                 </Button>

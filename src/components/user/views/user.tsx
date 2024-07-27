@@ -10,20 +10,26 @@ import { ScrollToTop } from '../../common/scroll-to-top';
 import { UserList } from '../user-list';
 import { UserScanner } from '../user-scanner';
 import { RouteComponentProps } from 'react-router';
+import { useBarmode } from '../../settings/barmode';
 
 interface OwnProps {
   isActive: boolean;
   showCreateUserForm?: boolean;
 }
 
+export interface Props {
+  disableMargin?: boolean;
+}
+
 type UserProps = OwnProps & RouteComponentProps;
 
-const GridWrapper = styled('div')({
-  marginLeft: '0rem',
-  [breakPoints.tablet]: {
-    marginLeft: '8rem',
-  },
-});
+const GridWrapper =
+  styled('div')<Props>({}, props => (!props.disableMargin && {
+    marginLeft: '0rem',
+    [breakPoints.tablet]: {
+      marginLeft: '8rem',
+    },
+  }));
 
 const CreateUserPosition = styled('div')({
   [breakPoints.tablet]: {
@@ -43,6 +49,7 @@ const CreateUserPosition = styled('div')({
 export const User = (props: UserProps) => {
   const userIds = useFilteredUsers(props.isActive);
   const dispatch = useDispatch();
+  const barmode = useBarmode();
 
   useEffect(() => {
     startLoadingUsers(dispatch);
@@ -53,12 +60,14 @@ export const User = (props: UserProps) => {
       <div>
         <ScrollToTop />
         <UserScanner />
-        <GridWrapper>
-          <CreateUserPosition>
-            <CreateUserInlineFormView
-              isActive={props.showCreateUserForm || false}
-            />
-          </CreateUserPosition>
+        <GridWrapper disableMargin={barmode.enabled} >
+          {!barmode.enabled && (
+            <CreateUserPosition>
+              <CreateUserInlineFormView
+                isActive={props.showCreateUserForm || false}
+              />
+            </CreateUserPosition>
+          )}
           <NavTabMenus
             margin="2rem 1rem"
             breakpoint={320}
