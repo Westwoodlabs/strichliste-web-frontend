@@ -2,6 +2,10 @@
 
 SPA Frontend for the [Strichliste](http://v2.strichliste.org/) project
 
+## Prebuild production version
+
+A prebuilded production version with bundled front- and backend of the project can be found at [strichliste-docker](https://github.com/Westwoodlabs/strichliste-docker)
+
 ## Getting Started
 
 This project is build with [typescript](https://www.typescriptlang.org/),
