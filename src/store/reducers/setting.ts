@@ -21,6 +21,7 @@ export interface Settings {
   user: User;
   common: {
     idleTimeout: number;
+    idleTimeoutOnInput: number;
   };
 }
 
@@ -136,7 +137,10 @@ export const initialState = {
     enabled: false,
     autoOpen: false,
   },
-  common: { idleTimeout: 30000 },
+  common: {
+    idleTimeout: 5000,
+    idleTimeoutOnInput: 60000,
+  },
   paypal: {
     enabled: true,
     recipient: 'finanzen@hackerspace-bamberg.de',

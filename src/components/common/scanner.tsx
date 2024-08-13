@@ -86,6 +86,7 @@ export class Scanner extends React.Component<Props, State> {
             type="text"
             hidden
             tabIndex={-1}
+            id="scanner"
           /></div>
       );
     }
@@ -100,6 +101,7 @@ export class Scanner extends React.Component<Props, State> {
             type="text"
             hidden
             tabIndex={-1}
+            id="scanner"
           /></div>
         {this.props.render(this.state.barcode)}
       </>

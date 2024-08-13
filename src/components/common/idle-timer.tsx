@@ -8,9 +8,26 @@ let timerId: any = 0;
 export function useIdleTimer(onTimeOut: () => void) {
   const settings = useSettings();
 
-  const resetTimer = () => {
+  const resetTimer = (...args) => {
+    let defaultTimer = settings.common.idleTimeout;
+    if (args.length > 2) {
+      defaultTimer = args[2];
+    }
+
     clearTimeout(timerId);
-    timerId = setTimeout(onTimeOut, settings.common.idleTimeout);
+    timerId = setTimeout(onTimeOutCheck, defaultTimer);
+  };
+
+  // Prevent onTimeOut if we are on a input field
+  const onTimeOutCheck = () => {
+
+    if (document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.id !== "scanner") {
+      console.log('Idle timeout prevented. Current active element:', document.activeElement);
+      resetTimer(settings.common.idleTimeoutOnInput - settings.common.idleTimeout);
+    } else {
+      console.log('Idle timeout passed. Current active element:', document.activeElement);
+      onTimeOut();
+    }
   };
 
   React.useEffect(() => {
