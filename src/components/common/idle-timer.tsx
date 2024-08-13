@@ -9,7 +9,7 @@ export function useIdleTimer(onTimeOut: () => void) {
   const settings = useSettings();
 
   const resetTimer = (timeout?: number, ...args: any[]) => {
-    let defaultTimer = timeout ?? settings.common.idleTimeout;
+    let defaultTimer = timeout === undefined ? settings.common.idleTimeout : timeout;
     clearTimeout(timerId);
     timerId = setTimeout(onTimeOutCheck, defaultTimer, ...args);
   };
