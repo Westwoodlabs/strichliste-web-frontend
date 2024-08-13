@@ -36,7 +36,7 @@ export class Scanner extends React.Component<Props, State> {
 
     clearTimeout(this.state.timeout);
 
-    if (this.inputRef.current !== document.activeElement && document.activeElement && document.activeElement.tagName === 'INPUT') {
+    if (this.inputRef.current !== document.activeElement && document.activeElement && document.activeElement.tagName.toUpperCase() === 'INPUT') {
       if (key === 'Enter' && this.state.maybeBarcode !== '') {
         event.preventDefault();
         preventOnChange = true;
@@ -63,7 +63,7 @@ export class Scanner extends React.Component<Props, State> {
 
     console.log("maybeBarcode", this.state.maybeBarcode);
 
-    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode) && document.activeElement && document.activeElement.tagName !== 'INPUT') {
+    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode) && document.activeElement && document.activeElement.tagName.toUpperCase() !== 'INPUT') {
       this.inputRef.current.focus();
     }
 

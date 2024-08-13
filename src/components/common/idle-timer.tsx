@@ -22,11 +22,11 @@ export function useIdleTimer(onTimeOut: () => void) {
     // we also call onTimeOut immediately if we are not on an input field.
     // the 'scanner' element doesn't count as an input field.
     let isIdleOnInput = args.length > 0 && args[0] === 'input-idle-check';
-    if (!isIdleOnInput && document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.id !== "scanner") {
-      console.log('Idle timeout prevented. Current active element:', document.activeElement);
+    if (!isIdleOnInput && document.activeElement && document.activeElement.tagName.toUpperCase() === 'INPUT' && document.activeElement.id !== "scanner") {
+      // console.log('Idle timeout prevented. Current active element:', document.activeElement);
       resetTimer(settings.common.idleTimeoutOnInput - settings.common.idleTimeout, 'input-idle-check');
     } else {
-      console.log('Idle timeout passed. Current active element:', document.activeElement);
+      // console.log('Idle timeout passed. Current active element:', document.activeElement);
       onTimeOut();
     }
   };
