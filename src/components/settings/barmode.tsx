@@ -7,7 +7,7 @@ import {
 import { useCookies } from 'react-cookie';
 
 export const useBarmode = () => {
-  const [cookies, setCookie] = useCookies(['barmode', 'barmode_filter', 'barmode_hidden']);
+  const [cookies, setCookie] = useCookies(['barmode', 'barmode_filter', 'barmode_hidden', 'disable_footer_href']);
 
   const setEnabled = (value: boolean) => {
     console.log('barmode', value);
@@ -24,18 +24,26 @@ export const useBarmode = () => {
     setCookie('barmode_hidden', value, { path: '/' });
   }
 
+  const disableFooterHref = (value: boolean) => {
+    console.log('disable_footer_href', value);
+    setCookie('disable_footer_href', value, { path: '/' });
+  }
+
   const enabled = cookies.barmode;
   const filter = cookies.barmode_filter;
   const hidden = cookies.barmode_hidden;
+  const footerHrefDisabled = cookies.disable_footer_href;
 
 
   return {
     setEnabled,
     setFilter,
     hideBarmode,
+    disableFooterHref,
     enabled,
     filter,
-    hidden
+    hidden,
+    footerHrefDisabled
   };
 };
 
@@ -62,6 +70,11 @@ export const Barmode = (props: Props) => {
         margin="1rem 0"
         alignItems="center"
       >
+        <div>Disable Footer Href</div>
+        <input
+          checked={barmode.footerHrefDisabled}
+          onChange={e => barmode.disableFooterHref(e.target.checked)}
+          type="checkbox" />
         <div>Hide Barmode</div>
         <input checked={barmode.hidden} onChange={e => barmode.hideBarmode(e.target.checked)} type="checkbox" />
         <div>Enable Barmode</div>

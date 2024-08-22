@@ -1,9 +1,13 @@
 import { Footer } from 'bricks-of-sand';
 import * as React from 'react';
 import { GitHubIcon } from '../ui/icons/git-hub';
+import { useBarmode } from '../settings/barmode';
 
 export function MainFooter(): JSX.Element {
-  return (
+
+  const barmode = useBarmode();
+
+  const content = (
     <Footer>
       <div>
         strichliste-web (MIT License, by{' '}
@@ -35,4 +39,31 @@ export function MainFooter(): JSX.Element {
       </div>
     </Footer>
   );
+
+  if (barmode.footerHrefDisabled === true || barmode.enabled === true) {
+    return filterFooter(content);
+  } else {
+    return content;
+  }
 }
+
+const filterFooter = (content: JSX.Element): JSX.Element => {
+
+  return React.cloneElement(content, {
+    ...content.props,
+    children: React.Children.map(content.props.children, (child) => {
+      if (React.isValidElement(child)) {
+        if (child.type === 'a') {
+          // get inner text of a tag
+          const text = (child.props as { children: React.ReactNode }).children;
+          return (
+            text
+          );
+        } else {
+          return filterFooter(child);
+        }
+      }
+      return child;
+    }),
+  });
+};
