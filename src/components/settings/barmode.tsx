@@ -7,7 +7,7 @@ import {
 import { useCookies } from 'react-cookie';
 
 export const useBarmode = () => {
-  const [cookies, setCookie] = useCookies(['barmode', 'barmode_filter']);
+  const [cookies, setCookie] = useCookies(['barmode', 'barmode_filter', 'barmode_hidden']);
 
   const setEnabled = (value: boolean) => {
     console.log('barmode', value);
@@ -19,15 +19,23 @@ export const useBarmode = () => {
     setCookie('barmode_filter', value, { path: '/' });
   }
 
+  const hideBarmode = (value: boolean) => {
+    console.log('barmode_hidden', value);
+    setCookie('barmode_hidden', value, { path: '/' });
+  }
+
   const enabled = cookies.barmode;
-  const filter = cookies.barmode_filter
+  const filter = cookies.barmode_filter;
+  const hidden = cookies.barmode_hidden;
 
 
   return {
     setEnabled,
     setFilter,
+    hideBarmode,
     enabled,
     filter,
+    hidden
   };
 };
 
@@ -54,6 +62,8 @@ export const Barmode = (props: Props) => {
         margin="1rem 0"
         alignItems="center"
       >
+        <div>Hide Barmode</div>
+        <input checked={barmode.hidden} onChange={e => barmode.hideBarmode(e.target.checked)} type="checkbox" />
         <div>Enable Barmode</div>
         <input
           checked={barmode.enabled}

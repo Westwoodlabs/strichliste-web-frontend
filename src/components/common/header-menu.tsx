@@ -51,9 +51,11 @@ export function HeaderMenu(): JSX.Element {
             <NavLink style={navLinkStyle} activeClassName="active" to="/metrics">
               <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
             </NavLink>
-            <NavLink activeClassName="active" to="/barmode">
-              <FormattedMessage id="SETTINGS_LINK" defaultMessage="Barmode" />
-            </NavLink>
+            {!barmode.hidden && (
+              <NavLink activeClassName="active" to="/barmode">
+                <FormattedMessage id="SETTINGS_LINK" defaultMessage="Barmode" />
+              </NavLink>
+            )}
           </>
         )}
       </ScrollContainer>
