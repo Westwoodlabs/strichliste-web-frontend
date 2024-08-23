@@ -63,7 +63,7 @@ export class Scanner extends React.Component<Props, State> {
 
     console.log("maybeBarcode", this.state.maybeBarcode);
 
-    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode) && document.activeElement instanceof HTMLInputElement) {
+    if (this.inputRef.current && this.props.validator.test(this.state.maybeBarcode) && !(document.activeElement instanceof HTMLInputElement)) {
       this.inputRef.current.focus();
     }
 
