@@ -39,7 +39,7 @@ export const UserScanner = withRouter((props: Props) => {
           <ToastContent message={message} />
         </Toast>
       )}
-      <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/W24.{3}/i} onChange={handleUserScan} />
+      <Scanner charset={/[a-zA-Z0-9_\-]/i} validator={/W(24|25).{3}/i} onChange={handleUserScan} />
     </>
   );
 });
