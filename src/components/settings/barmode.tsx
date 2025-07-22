@@ -9,6 +9,26 @@ import { useCookies } from 'react-cookie';
 export const useBarmode = () => {
   const [cookies, setCookie] = useCookies(['barmode', 'barmode_filter', 'barmode_hidden', 'disable_footer_href']);
 
+  // Read query params on initial load
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('barmode')) {
+      const value = params.get('barmode') === 'true';
+      setCookie('barmode', value, { path: '/' });
+    }
+    if (params.has('barmode_filter')) {
+      setCookie('barmode_filter', params.get('barmode_filter'), { path: '/' });
+    }
+    if (params.has('barmode_hidden')) {
+      const value = params.get('barmode_hidden') === 'true';
+      setCookie('barmode_hidden', value, { path: '/' });
+    }
+    if (params.has('disable_footer_href')) {
+      const value = params.get('disable_footer_href') === 'true';
+      setCookie('disable_footer_href', value, { path: '/' });
+    }
+  }, [setCookie]);
+
   const setEnabled = (value: boolean) => {
     console.log('barmode', value);
     setCookie('barmode', value, { path: '/' });
